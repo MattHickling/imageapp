@@ -5,6 +5,9 @@ use Barryvdh\Debugbar\Facades\Debugbar;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostsController;
 
+use App\Http\Controllers\FallbackController;
+use PHPUnit\Framework\MockObject\Rule\InvokedAtLeastOnce;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,26 +19,27 @@ use App\Http\Controllers\PostsController;
 |
 */
 
-// GET
-Route::get('/blog', [PostsController::class, 'index']);
-Route::get('/blog/{id}', [PostsController::class, 'show']);
 
 
-//POST
-Route::get('/blog/create', [PostsController::class, 'create']);
-Route::post('/blog/1', [PostsController::class, 'store']);
-
-// PUT or PATCH
-Route::get('/blog/edit/1', [PostsController::class, 'edit']);
-Route::post('/blog/1', [PostsController::class, 'update']);
-
-//DELETE
-Route::delete('/blog/1', [PostsController::class, 'destroy']);
-
-
-
-
+ROUTE::prefix('blog')->group(function (){   
+    Route::get('/', [PostsController::class, 'index'])->name('blog.index');
+    Route::get('/{id}', [PostsController::class, 'show'])->name('blog.show');
+    Route::get('/create', [PostsController::class, 'create'])->name('blog.create');
+    Route::post('/{id}', [PostsController::class, 'store'])->name('blog.store');
+    Route::get('/edit/1', [PostsController::class, 'edit'])->name('blog.edit');
+    Route::post('/{id}', [PostsController::class, 'update'])->name('blog.update');
+    Route::delete('/{id}', [PostsController::class, 'destroy'])->name('blog.destroy');
+});
 
 // Route::resource('/blog', PostsController::class);
-// Route::get('/', [HomeController::class, 'index']);
+
+// Invoke
 Route::get('/', HomeController::class);
+
+
+
+
+// Route::get('/', [HomeController::class, 'index']);
+
+// FALLBACK
+Route::fallback(FallbackController::class);
