@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,12 +13,11 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = DB::table('posts')
-        ->avg('min_to_read');
-       
-
-        dd($posts);
-        return view('blog.index');
+ 
+        return view('blog.index', [
+            'posts' => Post::orderBy('updated_at', 'desc')->get()
+        ]);
+        // dd($posts);
     }
 
     /**
@@ -41,9 +41,10 @@ class PostsController extends Controller
      */
     public function show($id = 1)
     {
-        return $id;
+        return view('blog.show', [
+            'post'=> Post::findOrFail($id)
+        ]);
     }
-
     /**
      * Show the form for editing the specified resource.
      */

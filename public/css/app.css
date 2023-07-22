@@ -4,4 +4,7 @@
 
 @tailwind utilities;
 
+.title{
+    font-size: 3rem;
+}
 
