@@ -25,7 +25,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        return view('blog.create');
     }
 
     /**
@@ -33,7 +33,15 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       Post::create([
+        'title' => $request->title,
+        'excerpt' => $request->excerpt,
+        'body' => $request->body,
+        'image_path' => 'temporary',
+        'is_published' => $request->is_published === '0',
+        'min_to_read' => $request->min_to_read,
+       ]);
+       return redirect(route('blog.index'));
     }
 
     /**

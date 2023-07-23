@@ -20,7 +20,7 @@
 
         <div class="py-3">
             <a class="btn btn-primary btn-lg shadow-lg rounded-pill transition-all hover:bg-success"
-               href="">
+               href="{{ route('blog.create') }}">
                 New Article
             </a>
         </div>

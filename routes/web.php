@@ -21,14 +21,14 @@ use PHPUnit\Framework\MockObject\Rule\InvokedAtLeastOnce;
 
 
 
-ROUTE::prefix('blog')->group(function (){   
+Route::prefix('blog')->group(function (){  
+    Route::post('/', [PostsController::class, 'store'])->name('blog.store');
+    Route::get('/create', [PostsController::class, 'create'])->name('blog.create'); 
     Route::get('/', [PostsController::class, 'index'])->name('blog.index');
     Route::get('/{id}', [PostsController::class, 'show'])->name('blog.show');
-    Route::get('/create', [PostsController::class, 'create'])->name('blog.create');
-    Route::post('/{id}', [PostsController::class, 'store'])->name('blog.store');
-    Route::get('/edit/1', [PostsController::class, 'edit'])->name('blog.edit');
-    Route::post('/{id}', [PostsController::class, 'update'])->name('blog.update');
-    Route::delete('/{id}', [PostsController::class, 'destroy'])->name('blog.destroy');
+    Route::get('/edit/{id}', [PostsController::class, 'edit'])->name('blog.edit');
+    Route::post('/update/{id}', [PostsController::class, 'update'])->name('blog.update');
+    Route::delete('/destroy/{id}', [PostsController::class, 'destroy'])->name('blog.destroy');
 });
 
 // Route::resource('/blog', PostsController::class);
