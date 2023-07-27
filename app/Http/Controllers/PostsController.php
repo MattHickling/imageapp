@@ -33,11 +33,21 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate([
+            'title' => 'required|unique:posts|maz:255',
+            'excerpt' => 'required',
+            'body' => 'required',
+            'image_path' => ['required', 'mimes:jpg,png,jpeg', 'max:5048'],
+            'min_to_read' => 'min:0|max:60',
+        ]);
+
+        
        Post::create([
         'title' => $request->title,
         'excerpt' => $request->excerpt,
         'body' => $request->body,
-        'image_path' => 'temporary',
+        'image_path' => $this->storeImage($request),
         'is_published' => $request->is_published === '0',
         'min_to_read' => $request->min_to_read,
        ]);
@@ -75,5 +85,11 @@ class PostsController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    private function storeImage($request)
+    {
+        $newImageName = uniqid() . '-' . $request->title . '.' . $request->image->extension();
+        return $request->image->move(public_path('images'), $newImageName);    
     }
 }
