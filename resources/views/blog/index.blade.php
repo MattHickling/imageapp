@@ -47,6 +47,9 @@
                         </a>
                         22-07-2023
                     </span>
+                    <a href="{{  route('blog.edit', $post->id) }}">
+                        Edit
+                    </a>
                 </div>
             </div>
         </div>
